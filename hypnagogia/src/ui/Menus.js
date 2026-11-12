@@ -84,7 +84,7 @@ export class Menus {
     const { game } = this;
     const { save } = game;
     const logo = el('div', 'logo');
-    logo.append(el('h1', null, 'ГИПНАГОГИЯ'), el('p', null, 'Hypnagogia'));
+    logo.append(el('h1', null, 'ГИПНАГОГИЯ'), el('p', null, 'Последний страж Древа Снов'));
     if (this.complete()) logo.append(icon('items', 'first_dream'));
     const list = el('div', 'buttons');
     if (save.data.run) list.append(this.button('Продолжить сон', () => game.continueRun()));

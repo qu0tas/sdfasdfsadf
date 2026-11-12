@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     target: 'es2022',
     chunkSizeWarningLimit: 1600,
-    // Two games live in this repository: Hollow Sun at the root and Hypnagogia in /hypnagogia/.
-    rollupOptions: { input: { main: 'index.html', hypnagogia: 'hypnagogia/index.html' } },
+    // Two games live in this repository: Hypnagogia is the main page, Hollow Sun is at /hollow-sun/.
+    rollupOptions: { input: { main: 'index.html', hollowSun: 'hollow-sun/index.html' } },
   },
 });
