@@ -44,10 +44,10 @@ const _hit = { t: 0, nx: 0, ny: 0, nz: 0, kind: null, ref: null };
 function viewMaterials() {
   const std = (color, roughness, metalness) => new THREE.MeshStandardMaterial({ color, roughness, metalness });
   return {
-    gun: std(0x2a2f37, 0.34, 0.9),
-    steel: std(0x858e99, 0.28, 0.95),
-    dark: std(0x14161a, 0.55, 0.6),
-    poly: std(0x1b1d22, 0.72, 0.1),
+    gun: std(0x46505e, 0.36, 0.78),
+    steel: std(0xa3adb9, 0.3, 0.88),
+    dark: std(0x23272e, 0.5, 0.6),
+    poly: std(0x2b2f36, 0.68, 0.12),
   };
 }
 
@@ -518,8 +518,8 @@ export class WeaponSystem {
     // Tint the view-model lighting by the baked light where the player stands.
     const a = this.ambient;
     const lum = clamp((a[0] + a[1] + a[2]) / 6, 0.12, 1.2);
-    this.hemi.intensity = damp(this.hemi.intensity, 0.35 + lum * 0.75, 5, dt);
-    this.key.intensity = damp(this.key.intensity, 0.5 + lum * 1.3, 5, dt);
+    this.hemi.intensity = damp(this.hemi.intensity, 0.9 + lum * 1.1, 5, dt);
+    this.key.intensity = damp(this.key.intensity, 1.6 + lum * 2.2, 5, dt);
     const m = Math.max(a[0], a[1], a[2], 0.001);
     this.key.color.setRGB(0.55 + (0.45 * a[0]) / m, 0.55 + (0.45 * a[1]) / m, 0.55 + (0.45 * a[2]) / m);
   }

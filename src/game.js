@@ -85,7 +85,11 @@ export class Game {
     this.weapons.root.visible = false;
 
     this.input.onLockChange = (locked) => {
-      if (!locked && this.state === 'playing' && !this.input.freeLook) this.pause();
+      if (locked) {
+        // A capture that arrives late still wins over the free-look fallback.
+        this.input.freeLook = false;
+        this.lockFails = 0;
+      } else if (this.state === 'playing' && !this.input.freeLook) this.pause();
     };
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && this.state === 'playing') this.pause();
@@ -163,7 +167,7 @@ export class Game {
     engine.scene.environment = this.env.texture;
     engine.scene.environmentIntensity = 0.6;
     engine.viewScene.environment = this.env.texture;
-    engine.viewScene.environmentIntensity = 0.9;
+    engine.viewScene.environmentIntensity = 1.8;
     this.sky.applyTheme(this.theme);
     engine.applyTheme(this.theme);
     this.fx.setTheme(this.theme);
@@ -266,6 +270,7 @@ export class Game {
   async startLevel(i, checkpoint = null) {
     if (this._busy) return;
     this._busy = true;
+    this.input.exitLock();
     this.setState('boot');
     this.menus.show('loading');
     await nextFrame();

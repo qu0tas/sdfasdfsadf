@@ -1,38 +1,30 @@
 # HOLLOW SUN — project handoff
 
-_Last updated: 2026-11-12 · branch `hoplite/megara-f6eb688a` · snapshot taken mid-build_
+_Last updated: 2026-11-12 · the game builds and runs end to end_
 
-This file is the single source of truth for continuing the project in another
-chat or with another developer. It describes what the game is, what has been
-written, what is still missing, and the plan to finish it.
+This file describes what the game is, how it is built and what is still worth
+doing. `README.md` is the short version for players and new contributors.
 
 ---
 
 ## 1. Status at a glance
 
-**The game is not runnable yet.** About 85% of the code is written, but the
-three files that tie it together do not exist, and nothing has been built or
-opened in a browser.
+**The game is playable from the title screen to all three endings.** The
+missing `src/game.js`, `src/main.js` and `src/styles.css` have been written
+following §5–§7 below, the project builds, and every chapter has been run in
+headless Chrome (software WebGL) without runtime errors.
 
 | Area | State |
 | --- | --- |
-| Project scaffold (Vite, deps, `index.html`) | Written. `npm install` succeeded. Never built. |
-| Story, level maps, level scripts | Written. Maps **validated** by script (see §9). |
-| Level logic (parse, collision, raycast, nav, light bake) | Written. Parsing/nav/raycast exercised by the map validator; the rest unverified. |
-| Graphics (textures, sky, materials, effects, level builder) | Written. **Never rendered.** |
-| Engine (renderer, post-processing, quality presets) | Written. Never run. |
-| Audio (synth SFX + generative music) | Written. Never run. |
-| Player, weapons, enemies, boss, projectiles, pickups | Written. Never run. |
-| Mission scripting + checkpoints | Written. Never run. |
-| HUD, dialogue, menus (DOM + logic) | Written. Never run. **No CSS exists.** |
-| `src/game.js` — the Game class that wires everything | **MISSING** (fully specified in §6) |
-| `src/main.js` — entry point | **MISSING** (trivial, §6.9) |
-| `src/styles.css` — all UI styling | **MISSING** (class inventory in §7) |
-| README, preview config, pull request | **MISSING** |
-| First build, browser run, bug-fix pass, visual tuning | **NOT STARTED** |
-
-Expect a real debugging pass once it first runs: ~7,500 lines were written
-without executing them.
+| Project scaffold (Vite, deps, `index.html`) | Builds with `npm run build`. |
+| Story, level maps, level scripts | All three chapter scripts played through start to finish by a test bot. Maps validated by script (see §9). |
+| Graphics, engine, post-processing | Rendered and checked from screenshots in every chapter: title, hangar, gallery windows, garden, boss arena. |
+| Player, weapons, enemies, boss, projectiles, pickups | Exercised by the bot (hitscan, rail, reloads, drops, boss phases); no runtime errors. |
+| Mission scripting + checkpoints | Checkpoint, death, retry, quit and continue verified. |
+| HUD, dialogue, menus | Styled and checked from screenshots. |
+| `src/game.js`, `src/main.js`, `src/styles.css` | Written. |
+| Audio | Code paths run, but **nobody has listened to it** (headless browser). |
+| Feel, balance, performance on a real GPU | **Not verified** — needs a human play-through (see §8). |
 
 ---
 
@@ -145,7 +137,7 @@ Rendering approach (all in `src/world/builder.js` + `src/core/engine.js`):
 
 ## 4. File map
 
-Status key: ✅ written (unverified unless noted) · ❌ missing
+Status key: ✅ written
 
 ```
 index.html                     ✅ #app > canvas#game + div#ui, loads /src/main.js
@@ -154,9 +146,9 @@ vite.config.js                 ✅
 .gitignore                     ✅
 scripts/validate-maps.mjs      ✅ dev check for the ASCII maps (ran clean)
 src/
-  main.js                      ❌ entry point
-  game.js                      ❌ Game class: state machine, loop, wiring
-  styles.css                   ❌ all HUD + menu styling
+  main.js                      ✅ entry point
+  game.js                      ✅ Game class: state machine, loop, wiring
+  styles.css                   ✅ all HUD + menu styling
   core/
     constants.js               ✅ CELL=4 m, heights, PLAYER dims, DIFFICULTY
     utils.js                   ✅ math helpers, mulberry32, formatTime, el()
@@ -227,8 +219,8 @@ o pillar  x crates  k container  e fuel cell  ~ tree  i lamp  y cryo pod  S ship
 
 ## 5. Contracts other modules already rely on
 
-Everything below is **called by existing code** and must exist on the `Game`
-instance (`game`) once `src/game.js` is written.
+Everything below is **called by existing code** and is provided by the `Game`
+instance (`game`) in `src/game.js`.
 
 Fields:
 
@@ -282,7 +274,7 @@ Return values worth knowing: `Enemy.takeDamage()` returns `'blocked' | 'hit' |
 
 ---
 
-## 6. Specification for the missing `src/game.js`
+## 6. How `src/game.js` works
 
 ### 6.1 Construction
 
@@ -410,7 +402,7 @@ testing: `?debug` exposes `window.__game`; `?level=N` jumps to a chapter.
 
 ---
 
-## 7. Specification for the missing `src/styles.css`
+## 7. UI class inventory (`src/styles.css`)
 
 `#app` fills the viewport; `canvas#game` is 100vw × 100vh; `#ui` overlays it.
 The HUD must not capture the mouse (`pointer-events: none`); menus must.
@@ -474,71 +466,61 @@ live 3D scene behind them.
 
 ---
 
-## 8. Plan to finish (in order)
+## 8. What is left
 
-1. Write `src/game.js`, `src/main.js`, `src/styles.css` per §5–§7.
-2. `npm run build` to catch syntax and import errors.
-3. Run `npm run dev`, open in a browser, fix runtime errors until the title
-   screen renders over the hangar.
-4. Start a new game and verify the core loop in level 1: movement and
-   collision, power terminal, drone ambush, door unlock, checkpoint, death and
-   retry.
-5. Play-test each enemy type and each weapon; fix AI or balance problems.
-6. Level 2: relay terminals in any order, optional hydro lab, spine fight.
-7. Level 3: armoury dialogue, boss phases, all three endings.
-8. Visual tuning from screenshots: light-bake intensity, pool-light power,
-   bloom, fog density, exposure, window shafts, sky.
-9. Performance check on each quality preset; confirm dynamic resolution.
-10. Write the README (story, controls, how to run, structure), add the preview
-    config, open a pull request.
+Nothing blocks play. Worth doing next, roughly in order of value:
 
-Nice-to-haves, only after the above: gamepad support, a difficulty-aware hint
-system, more ambient set dressing, a level-select time/accuracy record.
+1. A human play-through of all three chapters on a real GPU with sound: check
+   the feel of movement and recoil, weapon and enemy balance on each
+   difficulty, the Warden fight (2,500 HP, beam 36 dps), and frame rate on each
+   quality preset including dynamic resolution.
+2. Listen to the audio: SFX levels, the generative score, combat intensity.
+3. Enemy pathing around props uses a 1 m nav grid with 0.45 m padding; large
+   enemies (juggernaut radius 0.98) may snag in tight spots.
+4. Nice-to-haves: gamepad support, a difficulty-aware hint system, more ambient
+   set dressing, per-chapter time and accuracy records.
 
 ---
 
-## 9. What has actually been verified
+## 9. What has been verified
 
-- `npm install` — succeeded (three 0.187.0, vite 8.3.8, fontsource 5.3.0).
-- `node scripts/validate-maps.mjs` — **all maps OK**: rows are rectangular,
-  start/exit/terminals/logs/weapons match the level definitions, every hostile
-  is inside a labelled zone, doors have a walkable passage and solid jambs, no
-  floor touches the void, every walkable cell is reachable, nav grid and a
-  forward raycast work.
-
-Nothing else has been executed. In particular: no build, no shader has been
-compiled, no frame has been rendered, no sound has been played.
+- `npm run build` succeeds; `node scripts/validate-maps.mjs` reports all maps OK.
+- Headless Chrome with software WebGL (SwiftShader), no console errors:
+  - title screen over the orbiting hangar camera, new game, intro, deploy card;
+  - every chapter script played from start to finish by a scripted bot that
+    aims and fires through the real weapon code and uses terminals through
+    the real interaction prompt: chapter 1 to the lift, chapter 2 relays and
+    spine, chapter 3 pylons, Warden and the firing console;
+  - pause (key), settings, journal, controls, resume; death, retry from
+    checkpoint; quit to title and Continue; chapter select; the choice screen,
+    "Not yet", and the endings;
+  - screenshots reviewed for geometry winding, lighting, windows and sky,
+    door signs, view models, muzzle flash, boss shield, HUD and every menu.
+- Not verified: sound (never listened to), real-GPU performance, and play feel
+  — the software renderer manages about one frame per second at high quality,
+  so combat was driven by fast-forwarding the simulation, not played by hand.
+- Pointer lock: the free-look fallback path was exercised throughout. Real
+  capture works in headless Chrome but its lock changes arrive seconds late
+  there, so the capture → Esc → resume cycle still wants a check in a normal
+  browser.
 
 ---
 
-## 10. Known risks and things to double-check on first run
+## 10. Things that were fixed or tuned after the first run
 
-- **Shaders written blind:** sky (`gfx/sky.js`), particles/dust
-  (`gfx/effects.js`), water and the Warden's shield (`world/builder.js`,
-  `entities/boss.js`), final grade pass (`core/engine.js`), foliage wind
-  (`onBeforeCompile` in `gfx/materials.js`).
-- **Lighting balance is a guess:** light-bake intensity (3.1 per fixture,
-  divided by π in the shader), pool-light power (30 cd), sun intensity, hemi
-  light, environment intensity, bloom strength, exposure, fog density.
-- **Face winding / UVs** of the hand-built quads in `gfx/geo.js` (`QuadBatch`)
-  were derived on paper; back-face culling will reveal any mistake.
-- **Door orientation and sign placement** for `axis: 'z'` doors.
-- **Window shafts** (additive quads) may be too strong or misplaced.
-- **Semi-auto trigger queueing** in `WeaponSystem.update`.
-- **Enemy pathing** around props relies on a 1 m nav grid with 0.45 m
-  padding; large enemies (juggernaut radius 0.98) may snag in tight spots.
-- **Boss tuning** (2,500 HP, beam 36 dps, ring spacing) is untested.
-- `Menus` and `HUD` use `innerHTML` templates; all interpolated text comes
-  from the game's own data files, never from user input.
-- Pointer lock inside an embedded preview iframe may be refused; the
-  free-look fallback exists but is untested.
+- View models rendered almost black: lighter metals, stronger view-scene
+  lights and environment (`entities/weapons.js`, `game.js`).
+- A pointer capture granted after the free-look fallback had engaged left the
+  menus unclickable; a late capture now replaces free look, and starting a
+  level always releases the pointer first.
+- `Input.requestLock()` waits for an in-flight release before asking again, so
+  a stale "still captured" state cannot resume the game and pause it again.
 
 ---
 
 ## 11. Notes for an AI agent continuing this work
 
-- The repository is the source of truth: check out the branch named at the top
-  and read this file first.
+- The repository is the source of truth: read this file first.
 - Dev-server verification needs WebGL in headless Chrome; launch flags such as
   `--enable-unsafe-swiftshader` (or `--use-angle=swiftshader`) are usually
   required. Software rendering is slow, so disable dynamic resolution when

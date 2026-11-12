@@ -54,6 +54,7 @@ export class Input {
     document.addEventListener('contextmenu', (e) => e.preventDefault());
     document.addEventListener('pointerlockchange', () => {
       this.locked = document.pointerLockElement === this.target;
+      if (!this.locked) this._exiting = false;
       this.onLockChange?.(this.locked);
     });
   }
@@ -80,7 +81,20 @@ export class Input {
   }
 
   // Resolves true once the pointer is captured, false if the browser refused.
-  requestLock() {
+  async requestLock() {
+    if (this._exiting) {
+      // A release that is still in flight would make the element look captured; let it land first.
+      await new Promise((resolve) => {
+        const done = () => {
+          clearTimeout(timer);
+          document.removeEventListener('pointerlockchange', done);
+          resolve();
+        };
+        const timer = setTimeout(done, 1000);
+        document.addEventListener('pointerlockchange', done);
+      });
+      if (this._exiting) return false;
+    }
     return new Promise((resolve) => {
       const el = this.target;
       if (document.pointerLockElement === el) return resolve(true);
@@ -117,6 +131,9 @@ export class Input {
   }
 
   exitLock() {
-    if (document.pointerLockElement) document.exitPointerLock();
+    if (document.pointerLockElement) {
+      this._exiting = true;
+      document.exitPointerLock();
+    }
   }
 }
