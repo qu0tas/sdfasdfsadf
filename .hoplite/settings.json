@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "setup": "npm ci",
+    "run": "VITE_ALLOW_ALL_HOSTS=1 npm run dev"
+  },
+  "ports": {
+    "preview": 5173
+  }
+}
