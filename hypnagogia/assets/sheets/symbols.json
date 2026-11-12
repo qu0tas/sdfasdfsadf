@@ -1,0 +1,141 @@
+{
+  "name": "symbols",
+  "cellW": 16,
+  "cellH": 16,
+  "width": 16,
+  "height": 352,
+  "anims": {
+    "moon_chalk": {
+      "row": 0,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "moon_plate": {
+      "row": 1,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "moon_lit": {
+      "row": 2,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "star_chalk": {
+      "row": 3,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "star_plate": {
+      "row": 4,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "star_lit": {
+      "row": 5,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "eye_chalk": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "eye_plate": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "eye_lit": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "key_chalk": {
+      "row": 9,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "key_plate": {
+      "row": 10,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "key_lit": {
+      "row": 11,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "spiral_chalk": {
+      "row": 12,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "spiral_plate": {
+      "row": 13,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "spiral_lit": {
+      "row": 14,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "clock_chalk": {
+      "row": 15,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "clock_plate": {
+      "row": 16,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "clock_lit": {
+      "row": 17,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "dots1": {
+      "row": 18,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "dots2": {
+      "row": 19,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "dots3": {
+      "row": 20,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "plate_wrong": {
+      "row": 21,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "name": "hud",
+  "cellW": 12,
+  "cellH": 12,
+  "width": 12,
+  "height": 156,
+  "anims": {
+    "heart_full": {
+      "row": 0,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "heart_half": {
+      "row": 1,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "heart_empty": {
+      "row": 2,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "blue_full": {
+      "row": 3,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "blue_half": {
+      "row": 4,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "glass_empty": {
+      "row": 5,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "glass_full": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "dust": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "shard": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "ink": {
+      "row": 9,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "essence": {
+      "row": 10,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "charge_on": {
+      "row": 11,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "charge_off": {
+      "row": 12,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

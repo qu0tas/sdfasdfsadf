@@ -1,0 +1,21 @@
+{
+  "name": "merchant",
+  "cellW": 32,
+  "cellH": 32,
+  "width": 192,
+  "height": 64,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 6,
+      "fps": 5,
+      "loop": true
+    },
+    "nod": {
+      "row": 1,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}

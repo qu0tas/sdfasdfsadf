@@ -1,0 +1,111 @@
+{
+  "name": "tiles_heart",
+  "cellW": 16,
+  "cellH": 16,
+  "width": 16,
+  "height": 272,
+  "anims": {
+    "floor0": {
+      "row": 0,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "floor1": {
+      "row": 1,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "floor2": {
+      "row": 2,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "floor3": {
+      "row": 3,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "wall_n": {
+      "row": 4,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "wall_s": {
+      "row": 5,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "wall_w": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "wall_e": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "corner_nw": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "corner_ne": {
+      "row": 9,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "corner_sw": {
+      "row": 10,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "corner_se": {
+      "row": 11,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "block": {
+      "row": 12,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "cracked": {
+      "row": 13,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "rubble": {
+      "row": 14,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "decor0": {
+      "row": 15,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "decor1": {
+      "row": 16,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

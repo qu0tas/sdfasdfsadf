@@ -1,5 +1,7 @@
 # HOLLOW SUN
 
+> This repository holds two games. **Hypnagogia**, a 2D pixel-art roguelike, is the main page and is documented in [`hypnagogia/README.md`](hypnagogia/README.md). Hollow Sun, described below, is served at `/hollow-sun/` (`http://localhost:5173/hollow-sun/` with the dev server running).
+
 A story-driven first-person shooter that runs in the browser, built with Three.js. Everything is procedural: textures are drawn on canvases, models are assembled from primitives and all sound is synthesised with Web Audio, so the repository contains no image, model or audio files.
 
 ## Story
@@ -61,7 +63,7 @@ Every push to `main` builds the game and publishes `dist/` to GitHub Pages throu
 ## Project layout
 
 ```
-index.html              page shell: canvas + UI root
+hollow-sun/index.html   page shell: canvas + UI root
 src/main.js             entry point
 src/game.js             Game: state machine, frame loop, wiring of every system
 src/styles.css          HUD and menu styling

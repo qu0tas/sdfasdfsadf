@@ -1,0 +1,69 @@
+{
+  "name": "glyphs",
+  "cellW": 12,
+  "cellH": 12,
+  "width": 12,
+  "height": 120,
+  "anims": {
+    "treasure": {
+      "row": 0,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "shop": {
+      "row": 1,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "boss": {
+      "row": 2,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "miniboss": {
+      "row": 3,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "puzzle": {
+      "row": 4,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "event": {
+      "row": 5,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "unknown": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "secret": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "memory": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "start": {
+      "row": 9,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

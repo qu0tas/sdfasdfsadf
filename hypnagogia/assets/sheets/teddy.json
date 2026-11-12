@@ -1,0 +1,39 @@
+{
+  "name": "teddy",
+  "cellW": 24,
+  "cellH": 24,
+  "width": 144,
+  "height": 120,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "move": {
+      "row": 1,
+      "frames": 4,
+      "fps": 8,
+      "loop": true
+    },
+    "attack": {
+      "row": 2,
+      "frames": 4,
+      "fps": 10,
+      "loop": false
+    },
+    "hit": {
+      "row": 3,
+      "frames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    "death": {
+      "row": 4,
+      "frames": 6,
+      "fps": 10,
+      "loop": false
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "zero",
+  "cellW": 24,
+  "cellH": 24,
+  "width": 216,
+  "height": 216,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "blink": {
+      "row": 1,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    "walk": {
+      "row": 2,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    "shoot": {
+      "row": 3,
+      "frames": 3,
+      "fps": 16,
+      "loop": false
+    },
+    "dash": {
+      "row": 4,
+      "frames": 4,
+      "fps": 18,
+      "loop": false
+    },
+    "hit": {
+      "row": 5,
+      "frames": 3,
+      "fps": 12,
+      "loop": false
+    },
+    "use": {
+      "row": 6,
+      "frames": 5,
+      "fps": 10,
+      "loop": false
+    },
+    "death": {
+      "row": 7,
+      "frames": 9,
+      "fps": 9,
+      "loop": false
+    },
+    "appear": {
+      "row": 8,
+      "frames": 6,
+      "fps": 12,
+      "loop": false
+    }
+  }
+}
