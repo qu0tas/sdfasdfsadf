@@ -48,6 +48,10 @@ The build uses relative asset paths, so `dist/` can be hosted from any directory
 
 Progress, settings, found logs and the last checkpoint are kept in `localStorage`.
 
+## Deployment
+
+Every push to `main` builds the game and publishes `dist/` to GitHub Pages through `.github/workflows/pages.yml`. The repository's Pages source must be set to **GitHub Actions** (Settings → Pages → Build and deployment); serving the branch directly does not work because the source needs the Vite build.
+
 ## Development aids
 
 - `?debug` exposes the game object as `window.__game`.
