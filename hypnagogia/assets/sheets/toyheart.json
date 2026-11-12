@@ -1,0 +1,39 @@
+{
+  "name": "toyheart",
+  "cellW": 64,
+  "cellH": 64,
+  "width": 640,
+  "height": 320,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "beat": {
+      "row": 1,
+      "frames": 4,
+      "fps": 10,
+      "loop": false
+    },
+    "open": {
+      "row": 2,
+      "frames": 5,
+      "fps": 9,
+      "loop": false
+    },
+    "hit": {
+      "row": 3,
+      "frames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    "death": {
+      "row": 4,
+      "frames": 10,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}

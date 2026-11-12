@@ -1,0 +1,63 @@
+{
+  "name": "props",
+  "cellW": 32,
+  "cellH": 32,
+  "width": 192,
+  "height": 288,
+  "anims": {
+    "pedestal": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "well": {
+      "row": 1,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "mirror": {
+      "row": 2,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "clock": {
+      "row": 3,
+      "frames": 4,
+      "fps": 2,
+      "loop": true
+    },
+    "memory_door": {
+      "row": 4,
+      "frames": 4,
+      "fps": 4,
+      "loop": true
+    },
+    "memory_open": {
+      "row": 5,
+      "frames": 6,
+      "fps": 8,
+      "loop": false
+    },
+    "shadow_s": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "shadow_l": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "drawing": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

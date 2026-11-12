@@ -1,5 +1,7 @@
 # HOLLOW SUN
 
+> This repository also contains **Hypnagogia**, a 2D pixel-art roguelike, in [`hypnagogia/`](hypnagogia/README.md). With the dev server running it is at `http://localhost:5173/hypnagogia/`.
+
 A story-driven first-person shooter that runs in the browser, built with Three.js. Everything is procedural: textures are drawn on canvases, models are assembled from primitives and all sound is synthesised with Web Audio, so the repository contains no image, model or audio files.
 
 ## Story

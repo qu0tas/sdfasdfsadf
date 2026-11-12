@@ -8,5 +8,10 @@ export default defineConfig({
   base: './',
   server: { host: true, port: 5173, strictPort: true, allowedHosts },
   preview: { host: true, port: 4173, allowedHosts },
-  build: { target: 'es2022', chunkSizeWarningLimit: 1600 },
+  build: {
+    target: 'es2022',
+    chunkSizeWarningLimit: 1600,
+    // Two games live in this repository: Hollow Sun at the root and Hypnagogia in /hypnagogia/.
+    rollupOptions: { input: { main: 'index.html', hypnagogia: 'hypnagogia/index.html' } },
+  },
 });

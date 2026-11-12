@@ -1,0 +1,51 @@
+{
+  "name": "warden",
+  "cellW": 48,
+  "cellH": 48,
+  "width": 480,
+  "height": 336,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "move": {
+      "row": 1,
+      "frames": 6,
+      "fps": 10,
+      "loop": true
+    },
+    "windup": {
+      "row": 2,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "charge": {
+      "row": 3,
+      "frames": 3,
+      "fps": 14,
+      "loop": true
+    },
+    "attack": {
+      "row": 4,
+      "frames": 5,
+      "fps": 10,
+      "loop": false
+    },
+    "hit": {
+      "row": 5,
+      "frames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    "death": {
+      "row": 6,
+      "frames": 10,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}

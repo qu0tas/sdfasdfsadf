@@ -1,0 +1,87 @@
+{
+  "name": "shots",
+  "cellW": 16,
+  "cellH": 16,
+  "width": 64,
+  "height": 208,
+  "anims": {
+    "tear": {
+      "row": 0,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "note": {
+      "row": 1,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "tooth": {
+      "row": 2,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "bubble": {
+      "row": 3,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "bear": {
+      "row": 4,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "chord": {
+      "row": 5,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "star": {
+      "row": 6,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "orb": {
+      "row": 7,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "static": {
+      "row": 8,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "cog": {
+      "row": 9,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "stuffing": {
+      "row": 10,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "thorn": {
+      "row": 11,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "stitch": {
+      "row": 12,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    }
+  }
+}

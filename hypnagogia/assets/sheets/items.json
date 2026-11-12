@@ -1,0 +1,177 @@
+{
+  "name": "items",
+  "cellW": 16,
+  "cellH": 16,
+  "width": 16,
+  "height": 448,
+  "anims": {
+    "warm_milk": {
+      "row": 0,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "night_light": {
+      "row": 1,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "spring": {
+      "row": 2,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "old_sneakers": {
+      "row": 3,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "lullaby": {
+      "row": 4,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "music_box": {
+      "row": 5,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "milk_tooth": {
+      "row": 6,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "soap_bubbles": {
+      "row": 7,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "plush_heart": {
+      "row": 8,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "glass_marble": {
+      "row": 9,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "mirror_shard": {
+      "row": 10,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "thread_spool": {
+      "row": 11,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "inkwell": {
+      "row": 12,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "button_eye": {
+      "row": 13,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "rattle": {
+      "row": 14,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "star_mobile": {
+      "row": 15,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "blanket": {
+      "row": 16,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "alarm_clock": {
+      "row": 17,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "piggy_bank": {
+      "row": 18,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "pillow": {
+      "row": 19,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "lucky_coin": {
+      "row": 20,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "crayon": {
+      "row": 21,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "paper_plane": {
+      "row": 22,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "dream_catcher": {
+      "row": 23,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "spinning_top": {
+      "row": 24,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "snow_globe": {
+      "row": 25,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "pocket_watch": {
+      "row": 26,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    },
+    "first_dream": {
+      "row": 27,
+      "frames": 1,
+      "fps": 1,
+      "loop": false
+    }
+  }
+}

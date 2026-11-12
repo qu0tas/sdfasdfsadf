@@ -1,0 +1,63 @@
+{
+  "name": "pickups",
+  "cellW": 16,
+  "cellH": 16,
+  "width": 64,
+  "height": 144,
+  "anims": {
+    "dust": {
+      "row": 0,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "dust_big": {
+      "row": 1,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "shard": {
+      "row": 2,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "ink": {
+      "row": 3,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "heart_red": {
+      "row": 4,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "heart_half": {
+      "row": 5,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "heart_blue": {
+      "row": 6,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "heart_glass": {
+      "row": 7,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "bomb": {
+      "row": 8,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

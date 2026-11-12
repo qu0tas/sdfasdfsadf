@@ -1,0 +1,87 @@
+{
+  "name": "fx",
+  "cellW": 24,
+  "cellH": 24,
+  "width": 168,
+  "height": 312,
+  "anims": {
+    "pop_cyan": {
+      "row": 0,
+      "frames": 5,
+      "fps": 16,
+      "loop": false
+    },
+    "pop_rose": {
+      "row": 1,
+      "frames": 5,
+      "fps": 16,
+      "loop": false
+    },
+    "mist": {
+      "row": 2,
+      "frames": 7,
+      "fps": 12,
+      "loop": false
+    },
+    "puff": {
+      "row": 3,
+      "frames": 5,
+      "fps": 14,
+      "loop": false
+    },
+    "sparkle": {
+      "row": 4,
+      "frames": 6,
+      "fps": 12,
+      "loop": false
+    },
+    "heal": {
+      "row": 5,
+      "frames": 6,
+      "fps": 12,
+      "loop": false
+    },
+    "shatter": {
+      "row": 6,
+      "frames": 6,
+      "fps": 14,
+      "loop": false
+    },
+    "essence": {
+      "row": 7,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "puddle": {
+      "row": 8,
+      "frames": 4,
+      "fps": 4,
+      "loop": true
+    },
+    "telegraph": {
+      "row": 9,
+      "frames": 4,
+      "fps": 8,
+      "loop": true
+    },
+    "stun": {
+      "row": 10,
+      "frames": 4,
+      "fps": 8,
+      "loop": true
+    },
+    "frost": {
+      "row": 11,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "trail": {
+      "row": 12,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    }
+  }
+}

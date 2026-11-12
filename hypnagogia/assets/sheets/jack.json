@@ -1,0 +1,39 @@
+{
+  "name": "jack",
+  "cellW": 48,
+  "cellH": 48,
+  "width": 384,
+  "height": 240,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "move": {
+      "row": 1,
+      "frames": 4,
+      "fps": 10,
+      "loop": true
+    },
+    "attack": {
+      "row": 2,
+      "frames": 6,
+      "fps": 10,
+      "loop": false
+    },
+    "hit": {
+      "row": 3,
+      "frames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    "death": {
+      "row": 4,
+      "frames": 8,
+      "fps": 9,
+      "loop": false
+    }
+  }
+}

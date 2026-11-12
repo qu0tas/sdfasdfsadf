@@ -1,0 +1,45 @@
+{
+  "name": "clump",
+  "cellW": 64,
+  "cellH": 64,
+  "width": 576,
+  "height": 384,
+  "anims": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "move": {
+      "row": 1,
+      "frames": 4,
+      "fps": 7,
+      "loop": true
+    },
+    "attack": {
+      "row": 2,
+      "frames": 5,
+      "fps": 9,
+      "loop": false
+    },
+    "spit": {
+      "row": 3,
+      "frames": 4,
+      "fps": 9,
+      "loop": false
+    },
+    "hit": {
+      "row": 4,
+      "frames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    "death": {
+      "row": 5,
+      "frames": 9,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}
