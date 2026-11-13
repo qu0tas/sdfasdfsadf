@@ -1,4 +1,5 @@
 // Checks every content definition once at startup and reports problems in plain words.
+import { COLS, ROWS } from '../app/Config.js';
 import { BASE_SHOT, BASE_STATS } from './balance.js';
 import { BOSSES, ENEMIES } from './enemies.js';
 import { ITEMS, ITEM_BY_ID } from './items.js';
@@ -8,8 +9,6 @@ import { SYNERGIES } from './synergies.js';
 import { TAGS } from './tags.js';
 import { MARKS } from './unlocks.js';
 
-const COLS = 27;
-const ROWS = 13;
 const ROOM_TYPES = ['treasure', 'shop', 'puzzle', 'event', 'miniboss', 'elite', 'memory'];
 
 function checkEffect(where, effect, problems) {
@@ -31,10 +30,12 @@ function checkTemplate(template, problems) {
   }
   if (template.rows.some((row) => /[^.#x]/.test(row))) problems.push(`${where}: only . # x are allowed`);
   const open = (c, r) => template.rows[r]?.[c] === '.';
-  const doors = [[13, 0], [13, 12], [0, 6], [26, 6]];
+  const midC = (COLS - 1) / 2;
+  const midR = (ROWS - 1) / 2;
+  const doors = [[midC, 0], [midC, ROWS - 1], [0, midR], [COLS - 1, midR]];
   const seen = new Set();
-  const queue = [[13, 6]];
-  if (!open(13, 6)) problems.push(`${where}: the centre tile must be floor`);
+  const queue = [[midC, midR]];
+  if (!open(midC, midR)) problems.push(`${where}: the centre tile must be floor`);
   while (queue.length) {
     const [c, r] = queue.pop();
     if (!open(c, r) || seen.has(r * COLS + c)) continue;

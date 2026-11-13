@@ -27,7 +27,9 @@ export class RoomView {
   cell(sheet, name, x, y) {
     const { image, meta } = sheets[sheet];
     const entry = meta.anims[name];
-    this.ctx.drawImage(image, 0, entry.row * meta.cellH, meta.cellW, meta.cellH, Math.round(x), Math.round(y), meta.cellW, meta.cellH);
+    const w = meta.cellW * meta.scale;
+    const h = meta.cellH * meta.scale;
+    this.ctx.drawImage(image, 0, entry.row * meta.cellH, meta.cellW, meta.cellH, Math.round(x), Math.round(y), w, h);
   }
 
   /**
@@ -66,11 +68,11 @@ export class RoomView {
         const y = ROOM_Y + r * TILE;
         this.cell(tiles, rng.pick(variants), x, y);
         const tile = grid[r][c];
-        if (tile === '.' && rng.chance(0.035)) this.cell(tiles, rng.chance(0.5) ? 'decor0' : 'decor1', x, y);
+        if (tile === '.' && rng.chance(0.07)) this.cell(tiles, rng.chance(0.5) ? 'decor0' : 'decor1', x, y);
         if (tile === ',') this.cell(tiles, 'rubble', x, y);
       }
     }
-    for (const decal of decals) this.cell('symbols', decal.name, decal.x - 8, decal.y - 8);
+    for (const decal of decals) this.cell('symbols', decal.name, decal.x - TILE / 2, decal.y - TILE / 2);
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         const tile = grid[r][c];

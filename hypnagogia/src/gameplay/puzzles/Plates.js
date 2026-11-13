@@ -66,13 +66,13 @@ export class Plates {
       // The first time, the door gives up what it was hiding. Later it holds an ordinary find.
       const first = !world.save.hasMark('first_dream');
       const item = first ? 'first_dream' : world.run.pickItem('treasure');
-      if (item) world.loot.spawnPedestal(item, ROOM_CX, ROOM_Y + 52);
+      if (item) world.loot.spawnPedestal(item, ROOM_CX, ROOM_Y + 96);
       world.mark('first_dream');
     } else {
       const item = world.run.pickItem('treasure');
       if (item) world.loot.spawnPedestal(item, ROOM_CX, ROOM_CY + 2);
-      world.loot.drop('shard', ROOM_CX - 20, ROOM_CY + 4);
-      world.loot.drop('dust_big', ROOM_CX + 20, ROOM_CY + 4);
+      world.loot.drop('shard', ROOM_CX - 50, ROOM_CY + 4);
+      world.loot.drop('dust_big', ROOM_CX + 50, ROOM_CY + 4);
       world.mark('puzzle_solved');
     }
     world.saveRun();
@@ -107,7 +107,7 @@ export class Plates {
     }
     if (this.silent || world.locked || player.dead) return;
     for (const plate of this.list) {
-      const on = Math.hypot(player.x - plate.data.x, player.y - plate.data.y) < 8;
+      const on = Math.hypot(player.x - plate.data.x, player.y - plate.data.y) < 13;
       const stepped = on && !plate.on;
       plate.on = on;
       if (!stepped || plate.lit) continue;

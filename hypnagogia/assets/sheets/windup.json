@@ -2,6 +2,7 @@
   "name": "windup",
   "cellW": 24,
   "cellH": 24,
+  "scale": 2,
   "width": 144,
   "height": 120,
   "anims": {

@@ -24,6 +24,7 @@ export const REQUIRED_SHEETS = {
   fx: [
     'pop_cyan', 'pop_rose', 'mist', 'puff', 'sparkle', 'heal', 'shatter', 'essence', 'puddle', 'telegraph', 'stun', 'frost', 'trail',
   ],
+  fx2: ['beam', 'aim', 'spike', 'slime'],
   boom: ['ink', 'ring'],
   pickups: ['dust', 'dust_big', 'shard', 'ink', 'heart_red', 'heart_half', 'heart_blue', 'heart_glass', 'bomb'],
   hud: [

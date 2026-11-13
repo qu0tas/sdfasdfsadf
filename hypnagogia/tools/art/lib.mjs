@@ -283,7 +283,12 @@ export function encodePNG(img) {
  *   s.save(outDir);   // writes zero.png and zero.json
  */
 export class Sheet {
-  constructor(name, cellW, cellH) {
+  /**
+   * `scale` is how many screen pixels of the game one pixel of this sheet covers. The generated
+   * world art is drawn small and shown at 2; detailed art such as the hero is drawn at 1.
+   */
+  constructor(name, cellW, cellH, { scale = 2 } = {}) {
+    this.scale = scale;
     this.name = name;
     this.cellW = cellW;
     this.cellH = cellH;
@@ -325,7 +330,7 @@ export class Sheet {
     this.rows.forEach((row, j) => {
       anims[row.name] = { row: j, frames: row.cells.length, fps: row.fps, loop: row.loop };
     });
-    const meta = { name: this.name, cellW: this.cellW, cellH: this.cellH, width: img.w, height: img.h, anims };
+    const meta = { name: this.name, cellW: this.cellW, cellH: this.cellH, scale: this.scale, width: img.w, height: img.h, anims };
     writeFileSync(join(dir, `${this.name}.json`), `${JSON.stringify(meta, null, 2)}\n`);
     return img;
   }

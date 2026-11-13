@@ -1,6 +1,6 @@
 // The rifts in the room's walls: how they look, when they let the player through, and the
 // stage rifts that appear after a boss.
-import { DIRS, DIR_KEYS, LAYER, doorPos } from '../../app/Config.js';
+import { DIRS, DIR_KEYS, LAYER, TILE, doorPos } from '../../app/Config.js';
 import { VARIANTS } from '../../data/stages.js';
 
 /** Glyph shown beside a rift whose destination is known but not yet visited. */
@@ -75,8 +75,8 @@ export class Doors {
       if (glyph && !entry.glyph) {
         entry.glyph = world.stage.sprite('glyphs', glyph);
         entry.glyph.layer = LAYER.overlay;
-        entry.glyph.x = entry.pos.x - DIRS[entry.dir].dx * 21;
-        entry.glyphY = entry.pos.y - DIRS[entry.dir].dy * 21;
+        entry.glyph.x = entry.pos.x - DIRS[entry.dir].dx * 40;
+        entry.glyphY = entry.pos.y - DIRS[entry.dir].dy * 40;
       } else if (!glyph && entry.glyph) {
         entry.glyph.remove();
         entry.glyph = null;
@@ -91,7 +91,7 @@ export class Doors {
     for (const entry of this.list) {
       const { door } = entry;
       if (!door || door.kind !== 'secret' || door.found) continue;
-      if (Math.hypot(entry.pos.x - x, entry.pos.y - y) > radius + 14) continue;
+      if (Math.hypot(entry.pos.x - x, entry.pos.y - y) > radius + 22) continue;
       const target = world.run.floor.rooms[door.to];
       door.found = true;
       target.doors[DIRS[entry.dir].opp].found = true;
@@ -116,10 +116,10 @@ export class Doors {
       // Standing in the rift's mouth and pushing into it.
       const across = d.dx ? Math.abs(player.y - entry.pos.y) : Math.abs(player.x - entry.pos.x);
       const depth = d.dx ? Math.abs(player.x - entry.pos.x) : Math.abs(player.y - entry.pos.y);
-      const near = across < 10 && depth < 8 + player.radius + 2;
+      const near = across < 15 && depth < TILE / 2 + player.radius + 3;
       const pushing = (player.moveX ?? 0) * d.dx + (player.moveY ?? 0) * d.dy > 0.3;
       if (!near) {
-        if (entry.stage && Math.hypot(player.x - entry.pos.x, player.y - entry.pos.y) < 46) this.describe(entry.stage);
+        if (entry.stage && Math.hypot(player.x - entry.pos.x, player.y - entry.pos.y) < 72) this.describe(entry.stage);
         continue;
       }
 

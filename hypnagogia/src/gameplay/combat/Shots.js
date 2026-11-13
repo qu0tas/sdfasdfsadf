@@ -5,6 +5,8 @@ import { angleDiff } from '../../utils/math.js';
 /** Shapes drawn pointing along their flight direction. The rest keep upright. */
 const ROTATES = new Set(['tear', 'tooth', 'thorn', 'stitch']);
 const TRAIL_LIMIT = 70;
+/** One dial for how fast every hostile shot flies. */
+const HOSTILE_SPEED = 1.3;
 
 export class Shots {
   constructor(world) {
@@ -34,7 +36,7 @@ export class Shots {
       {
         friendly: true, x, y, bx: x, by: y, angle, speed, damage,
         life: (range / speed) * (spec.drag ? 1.5 : 1),
-        r: 3.5 * size, scale: size > 1.25 ? 1.5 : 1, spec, child: !!o.child,
+        r: 6 * size, scale: size > 1.25 ? 1.5 : 1, spec, child: !!o.child,
         pierce: spec.pierce, bounce: spec.bounce, hit: new Set(), split: false, trailT: 0,
       },
       spec.shape,
@@ -46,7 +48,7 @@ export class Shots {
    */
   fireHostile(x, y, angle, speed, o = {}) {
     return this.add(
-      { friendly: false, x, y, angle, speed, damage: o.damage ?? 1, life: o.life ?? 5, r: o.r ?? 3, accel: o.accel ?? 0, turn: o.turn ?? 0 },
+      { friendly: false, x, y, angle, speed: speed * HOSTILE_SPEED, damage: o.damage ?? 1, life: o.life ?? 5, r: o.r ?? 5, accel: o.accel ?? 0, turn: o.turn ?? 0 },
       o.kind ?? 'orb',
     );
   }
@@ -90,7 +92,7 @@ export class Shots {
 
     if (spec.homing > 0) {
       let best = null;
-      let bestDist = 120;
+      let bestDist = 180;
       for (const enemy of world.enemies) {
         if (!enemy.targetable) continue;
         const d = Math.hypot(enemy.x - shot.x, enemy.y - shot.y);
@@ -105,7 +107,7 @@ export class Shots {
         shot.angle += Math.max(-turn, Math.min(turn, angleDiff(shot.angle, want)));
       }
     }
-    if (spec.drag) shot.speed = Math.max(22, shot.speed * (1 - 1.1 * dt));
+    if (spec.drag) shot.speed = Math.max(30, shot.speed * (1 - 1.1 * dt));
 
     const vx = Math.cos(shot.angle) * shot.speed * dt;
     const vy = Math.sin(shot.angle) * shot.speed * dt;
@@ -140,7 +142,7 @@ export class Shots {
     shot.by = ny;
 
     // The sway of notes is visual and real: the hit position sways too.
-    const sway = spec.wave ? Math.sin(shot.t * 16) * 6 * spec.wave : 0;
+    const sway = spec.wave ? Math.sin(shot.t * 16) * 10 * spec.wave : 0;
     shot.x = nx - Math.sin(shot.angle) * sway;
     shot.y = ny + Math.cos(shot.angle) * sway;
 
@@ -148,14 +150,14 @@ export class Shots {
       if (!enemy.targetable || shot.hit.has(enemy)) continue;
       if (Math.hypot(enemy.x - shot.x, enemy.y - shot.y) > enemy.radius + shot.r) continue;
       shot.hit.add(enemy);
-      enemy.hurt(shot.damage, Math.cos(shot.angle) * 40 * spec.knock, Math.sin(shot.angle) * 40 * spec.knock);
+      enemy.hurt(shot.damage, Math.cos(shot.angle) * 70 * spec.knock, Math.sin(shot.angle) * 70 * spec.knock);
       world.fx.spawn('pop_cyan', shot.x, shot.y);
       if (spec.splitOnHit && !shot.child && !shot.split) {
         shot.split = true;
         const { count, shape, damageMul } = spec.splitOnHit;
         for (let i = 0; i < count; i++) {
           const angle = shot.angle + (i - (count - 1) / 2) * 0.9;
-          const child = this.firePlayer(shot.x, shot.y, angle, this.childSpec(spec, shape), shot.damage * damageMul, shot.speed, 110, { child: true });
+          const child = this.firePlayer(shot.x, shot.y, angle, this.childSpec(spec, shape), shot.damage * damageMul, shot.speed, 170, { child: true });
           child.hit.add(enemy);
         }
       }
@@ -185,7 +187,7 @@ export class Shots {
       const { count, shape, damageMul } = spec.burstOnEnd;
       const offset = Math.random() * Math.PI;
       for (let i = 0; i < count; i++) {
-        this.firePlayer(shot.x, shot.y, offset + (i / count) * Math.PI * 2, this.childSpec(spec, shape), shot.damage * damageMul, 150, 70, { child: true });
+        this.firePlayer(shot.x, shot.y, offset + (i / count) * Math.PI * 2, this.childSpec(spec, shape), shot.damage * damageMul, 210, 110, { child: true });
       }
     }
     this.kill(shot, pop);
@@ -203,7 +205,7 @@ export class Shots {
       return;
     }
     const { player } = world;
-    if (!player.dead && Math.hypot(player.x - shot.x, player.y - shot.y) < player.radius + shot.r - 1) {
+    if (!player.dead && Math.hypot(player.x - shot.x, player.y - shot.y) < player.radius + shot.r - 3) {
       if (player.hurt(shot.damage)) this.kill(shot);
     }
   }

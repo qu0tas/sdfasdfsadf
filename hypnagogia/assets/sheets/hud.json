@@ -2,6 +2,7 @@
   "name": "hud",
   "cellW": 12,
   "cellH": 12,
+  "scale": 2,
   "width": 12,
   "height": 156,
   "anims": {

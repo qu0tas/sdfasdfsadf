@@ -145,6 +145,6 @@ export class Grid {
       const p = tileCenter(c, r);
       if (Math.hypot(p.x - awayX, p.y - awayY) >= minDist) return p;
     }
-    return tileCenter(13, 6);
+    return tileCenter((COLS - 1) / 2, (ROWS - 1) / 2);
   }
 }

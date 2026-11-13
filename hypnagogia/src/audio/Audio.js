@@ -133,6 +133,7 @@ export class Audio {
       case 'freeze': s({ freq: 1800, to: 2600, time: 0.4, gain: 0.08 }); this.noise({ time: 0.3, gain: 0.05, freq: 5000, to: 3000 }); break;
       case 'charge': s({ freq: 880, time: 0.1, gain: 0.07 }); break;
       case 'telegraph': s({ freq: 150, to: 220, type: 'sawtooth', time: 0.3, gain: 0.07 }); break;
+      case 'beam': s({ freq: 880, to: 220, type: 'sawtooth', time: 0.45, gain: 0.1 }); this.noise({ time: 0.4, gain: 0.08, freq: 3000, to: 800 }); break;
       case 'slam': this.noise({ time: 0.3, gain: 0.3, freq: 600, to: 60 }); s({ freq: 70, to: 40, time: 0.3, gain: 0.25 }); break;
       case 'bossDie': [392, 330, 262, 196, 131].forEach((freq, i) => s({ freq, type: 'triangle', time: 0.7, gain: 0.14, at: i * 0.22 })); break;
       case 'death': [330, 262, 196, 147, 98].forEach((freq, i) => s({ freq, time: 0.6, gain: 0.14, at: i * 0.2 })); break;
