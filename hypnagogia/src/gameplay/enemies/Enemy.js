@@ -8,7 +8,7 @@ import { BOSS_AI } from '../bosses/bossAi.js';
 import { AI } from './ai.js';
 
 export class Enemy {
-  /** @param {object} [o] { elite, minion } — minions are summoned mid-fight and leave no reward */
+  /** @param {object} [o] { elite, minion, quick } — minions are summoned mid-fight and leave no reward; quick skips the mist */
   constructor(world, type, x, y, o = {}) {
     const def = creatureDef(type);
     if (!def) throw new Error(`Unknown creature "${type}"`);
@@ -24,6 +24,7 @@ export class Enemy {
     this.x = x;
     this.y = y;
     this.radius = def.radius * (this.elite ? 1.1 : 1);
+    this.speed = def.speed;
     this.flying = !!def.flying;
     this.maxHp = def.hp * (this.boss ? 1 : 1 + 0.3 * world.run.stageIndex) * (this.elite ? 2 : 1);
     this.hp = this.maxHp;
@@ -31,8 +32,10 @@ export class Enemy {
     this.vuln = 1; // damage multiplier; bosses raise it while exposed
 
     this.state = 'spawn';
-    this.timer = this.boss ? 1.1 : 0.55;
+    this.timer = this.boss ? 1.1 : o.quick ? 0.25 : 0.55;
     this.hidden = false;
+    this.air = false; // mid-leap: cannot be hit and cannot hurt
+    this.lift = 0; // how high the sprite is drawn above its shadow
     this.gone = false;
     this.frozen = 0;
     this.slow = 0;
@@ -51,17 +54,19 @@ export class Enemy {
     this.sprite.layer = LAYER.ents;
     this.sprite.alpha = 0;
     // Sheets are drawn with the feet 3 px above the bottom of the cell.
-    this.sprite.oy = this.radius - (sheets[def.sheet].meta.cellH / 2 - 3);
+    const { meta } = sheets[def.sheet];
+    this.sprite.oy = this.radius - (meta.cellH / 2 - 3) * meta.scale;
     this.sprite.sortBias = this.radius;
-    if (this.elite) this.sprite.scale = 1.15;
-    this.shadow = world.stage.sprite('props', this.radius > 10 ? 'shadow_l' : 'shadow_s');
+    this.baseScale = (def.scale ?? 1) * (this.elite ? 1.15 : 1);
+    this.sprite.scale = this.baseScale;
+    this.shadow = world.stage.sprite('props', this.radius > 20 ? 'shadow_l' : 'shadow_s');
     this.shadow.layer = LAYER.shadow;
     this.shadow.alpha = 0;
-    world.fx.spawn('mist', x, y, { scale: this.boss ? 2 : 1 });
+    if (!o.quick) world.fx.spawn('mist', x, y, { scale: this.boss ? 2 : 1 });
   }
 
   get targetable() {
-    return this.state === 'active' && !this.hidden;
+    return this.state === 'active' && !this.hidden && !this.air;
   }
 
   /**
@@ -141,7 +146,7 @@ export class Enemy {
         this.mvx *= 0.5;
         this.mvy *= 0.5;
       }
-      this.bump = world.grid.move(this, (this.mvx + this.kx) * dt, (this.mvy + this.ky) * dt, this.radius - 1, this.flying);
+      this.bump = world.grid.move(this, (this.mvx + this.kx) * dt, (this.mvy + this.ky) * dt, Math.min(this.radius, 14) - 1, this.flying || this.air);
       const decay = Math.max(0, 1 - 9 * dt);
       this.kx *= decay;
       this.ky *= decay;
@@ -156,7 +161,7 @@ export class Enemy {
       else if (!this.oneShot || this.boss) sprite.flip = world.player.x < this.x;
 
       const { player } = world;
-      if (!this.hidden && !player.dead && Math.hypot(player.x - this.x, player.y - this.y) < this.radius + player.radius - 2) {
+      if (!this.hidden && !this.air && !player.dead && Math.hypot(player.x - this.x, player.y - this.y) < this.radius + player.radius - 4) {
         player.hurt(1);
       }
     }
@@ -167,7 +172,8 @@ export class Enemy {
     else if (this.elite) sprite.setTint(1.15, 0.85, 1.25);
     else sprite.setTint(1, 1, 1);
     sprite.x = this.x;
-    sprite.y = this.y;
+    sprite.y = this.y - this.lift;
+    sprite.sortBias = this.radius + this.lift;
     this.shadow.x = this.x;
     this.shadow.y = this.y + this.radius - 1;
     this.shadow.visible = !this.hidden;
@@ -177,7 +183,7 @@ export class Enemy {
     if (!this.targetable) return;
     this.hp -= damage * this.vuln;
     this.flash = 1;
-    const push = this.boss ? 0.08 : this.def.speed === 0 ? 0 : 1;
+    const push = this.boss ? 0.08 : this.def.rooted ? 0 : 1;
     this.kx += kx * push;
     this.ky += ky * push;
     this.world.audio.sfx('enemyHit');
@@ -198,6 +204,7 @@ export class Enemy {
     this.sprite.setTint(1, 1, 1);
     this.sprite.flash = 0;
     this.sprite.alpha = 1;
+    this.sprite.scale = this.baseScale;
     this.sprite.visible = true;
     this.sprite.play('death', { restart: true, then: () => { this.gone = true; } });
     this.shadow.remove();

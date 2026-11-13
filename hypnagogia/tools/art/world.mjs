@@ -18,7 +18,7 @@ sheets.push(rift);
 savePreview(riftPreview(rift, tiles.roots), 'rift_room.png', 5);
 sheets.push(shots, fx, boom);
 
-for (const mod of ['./world-ui.mjs', './world-items.mjs', './world-props.mjs']) {
+for (const mod of ['./world-ui.mjs', './world-items.mjs', './world-props.mjs', './world-extra.mjs']) {
   try {
     const m = await import(mod);
     sheets.push(...m.sheets);

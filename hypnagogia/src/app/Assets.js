@@ -38,6 +38,8 @@ export async function loadAssets() {
       texture.generateMipmaps = false;
       texture.colorSpace = THREE.NoColorSpace;
       texture.needsUpdate = true;
+      // How many game pixels one pixel of the sheet covers (see tools/art/lib.mjs).
+      meta.scale ??= 1;
       sheets[name] = { meta, url: urlByName[name], image, texture };
     }),
   );

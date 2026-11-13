@@ -72,7 +72,7 @@ export class Game {
     this.roomView.draw(STAGES[0].tiles, TEMPLATE_BY_ID.open.rows.map((row) => [...row]), [], 7);
     this.titleSprite = this.renderer.stage.sprite('zero', 'idle');
     this.titleSprite.x = ROOM_CX;
-    this.titleSprite.y = ROOM_CY + 44;
+    this.titleSprite.y = ROOM_CY + 56;
     this.menus.title();
   }
 

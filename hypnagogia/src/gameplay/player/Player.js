@@ -26,10 +26,11 @@ export class Player {
 
     this.sprite = world.stage.sprite('zero', 'idle');
     this.sprite.layer = LAYER.ents;
-    this.sprite.oy = this.radius - (sheets.zero.meta.cellH / 2 - 3);
+    this.sprite.oy = this.radius - (sheets.zero.meta.cellH / 2 - 3) * sheets.zero.meta.scale;
     this.sprite.sortBias = this.radius;
     this.shadow = world.stage.sprite('props', 'shadow_s');
     this.shadow.layer = LAYER.shadow;
+    this.shadow.scale = 1.3;
   }
 
   get stats() {
@@ -91,12 +92,14 @@ export class Player {
       this.dashCd = stats.dashCd;
       this.inv = Math.max(this.inv, PLAYER.dashTime + 0.06);
       this.playOnce('dash');
-      world.fx.spawn('puff', this.x, this.y + 3);
+      world.fx.spawn('puff', this.x, this.y + 6);
       world.audio.sfx('dash');
     }
 
-    let vx = move.x * stats.speed;
-    let vy = move.y * stats.speed;
+    // Sticky puddles left by blobs slow him down.
+    const pace = stats.speed * (world.inSlime(this.x, this.y) ? 0.5 : 1);
+    let vx = move.x * pace;
+    let vy = move.y * pace;
     if (this.dashing) {
       this.dashT -= dt;
       vx = this.dashX * PLAYER.dashSpeed;
@@ -118,9 +121,8 @@ export class Player {
         this.playOnce('blink');
       }
     }
-    if (this.dashing) sprite.flip = this.dashX < 0;
-    else if (aim.firing || !this.moving) sprite.flip = aim.x < 0;
-    else sprite.flip = vx < 0;
+    // He is drawn exactly as in the concept art, so he is never mirrored - except the dash smear.
+    sprite.flip = this.oneShot === 'dash' && this.dashX < 0;
     // Blinking while invulnerable after a hit.
     sprite.alpha = this.inv > 0 && !this.dashing && Math.floor(this.inv * 14) % 2 ? 0.35 : 1;
   }
@@ -131,8 +133,8 @@ export class Player {
     this.fireT = stats.fireDelay;
     this.volley += 1;
     const base = Math.atan2(this.aimY, this.aimX);
-    const ox = this.x + this.aimX * 6;
-    const oy = this.y + this.aimY * 6 - 2;
+    const ox = this.x + this.aimX * 12;
+    const oy = this.y + this.aimY * 12 - 6;
 
     if (shot.chordEvery && this.volley % shot.chordEvery === 0) {
       world.shots.firePlayer(ox, oy, base, { ...shot, shape: 'chord', size: shot.size + 0.6 }, stats.damage * 2.5, stats.shotSpeed, stats.range);
@@ -161,7 +163,7 @@ export class Player {
     world.renderer.shake(3, 0.2);
     if (took === 'glass') {
       world.audio.sfx('glass');
-      world.fx.spawn('shatter', this.x, this.y - 4);
+      world.fx.spawn('shatter', this.x, this.y - 8);
     } else {
       world.audio.sfx('hurt');
     }
