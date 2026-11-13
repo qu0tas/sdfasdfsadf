@@ -40,6 +40,9 @@ export class World {
     this.zones = [];
     this.trails = [];
     this.wisps = [];
+    this.slimes = [];
+    this.beams = [];
+    this.lobs = [];
     this.behaviours = new Map();
     this.time = 0;
     this.locked = false; // a fight is on: the rifts are sealed
@@ -72,7 +75,9 @@ export class World {
     this.enemies.length = 0;
     this.shots.clear();
     this.fx.clear();
-    for (const list of [this.bombs, this.zones, this.trails, this.wisps]) {
+    for (const beam of this.beams) for (const sprite of beam.sprites) sprite.remove();
+    this.beams.length = 0;
+    for (const list of [this.bombs, this.zones, this.trails, this.wisps, this.slimes, this.lobs]) {
       for (const thing of list) thing.sprite.remove();
       list.length = 0;
     }
@@ -102,7 +107,7 @@ export class World {
     populateRoom(room, run.floor, { pickItem: (pool) => run.pickItem(pool), memoryCode: this.save.meta.memoryCode });
 
     this.rebuildGrid();
-    const at = fromDir ? entryPos(DIRS[fromDir].opp) : { x: ROOM_CX, y: ROOM_CY + (room.type === 'start' ? 0 : 60) };
+    const at = fromDir ? entryPos(DIRS[fromDir].opp) : { x: ROOM_CX, y: ROOM_CY + (room.type === 'start' ? 0 : 76) };
     this.player.place(at.x, at.y);
 
     this.loot.build();
@@ -152,8 +157,8 @@ export class World {
   }
 
   spawnEnemy(type, x, y, o = {}) {
-    const px = Math.max(ROOM_X + 12, Math.min(ROOM_X + ROOM_W - 12, x));
-    const py = Math.max(ROOM_Y + 12, Math.min(ROOM_Y + ROOM_H - 12, y));
+    const px = Math.max(ROOM_X + 20, Math.min(ROOM_X + ROOM_W - 20, x));
+    const py = Math.max(ROOM_Y + 20, Math.min(ROOM_Y + ROOM_H - 20, y));
     const enemy = new Enemy(this, type, px, py, o);
     this.enemies.push(enemy);
     if (enemy.boss) this.bossEnemy = enemy;
@@ -184,7 +189,7 @@ export class World {
         const sprite = this.stage.sprite('fx', 'essence');
         sprite.layer = LAYER.fx;
         const angle = Math.random() * Math.PI * 2;
-        this.wisps.push({ sprite, x: enemy.x, y: enemy.y, vx: Math.cos(angle) * 70, vy: Math.sin(angle) * 70, t: 0 });
+        this.wisps.push({ sprite, x: enemy.x, y: enemy.y, vx: Math.cos(angle) * 110, vy: Math.sin(angle) * 110, t: 0 });
       }
     }
     if (enemy.elite) this.loot.drop('dust_big', enemy.x, enemy.y);
@@ -223,7 +228,7 @@ export class World {
     const reward = rollReward(room, run.floor, { luck: run.build.stats.luck, pickItem: (pool) => run.pickItem(pool) });
     reward.pickups.forEach((pickup, i) => {
       const angle = (i / Math.max(1, reward.pickups.length)) * Math.PI * 2 + 0.6;
-      const spot = this.clearSpot(ROOM_CX + Math.cos(angle) * 18, ROOM_CY + 4 + Math.sin(angle) * 14);
+      const spot = this.clearSpot(ROOM_CX + Math.cos(angle) * 34, ROOM_CY + 4 + Math.sin(angle) * 24);
       this.loot.drop(pickup.kind, spot.x, spot.y);
     });
     for (const pedestal of reward.pedestals) this.loot.spawnPedestal(pedestal.item, pedestal.x, pedestal.y);
@@ -264,7 +269,7 @@ export class World {
     this.locked = true;
     this.audio.sfx('seal');
     for (const type of types) {
-      const spot = this.grid.freeSpot(Math.random, this.player.x, this.player.y, 80);
+      const spot = this.grid.freeSpot(Math.random, this.player.x, this.player.y, 110);
       this.spawnEnemy(type, spot.x, spot.y, { minion: true });
     }
     this.doors.refresh();
@@ -282,22 +287,22 @@ export class World {
     const sprite = this.stage.sprite('pickups', 'bomb');
     sprite.layer = LAYER.ents;
     sprite.x = player.x;
-    sprite.y = player.y + 2;
+    sprite.y = player.y + 4;
     // Stretch the four fuse frames over the whole fuse time.
     sprite.speed = 4 / (sprite.entry.fps * INK.fuse);
-    this.bombs.push({ sprite, x: player.x, y: player.y + 2, t: INK.fuse });
+    this.bombs.push({ sprite, x: player.x, y: player.y + 4, t: INK.fuse });
     this.audio.sfx('place');
   }
 
   explode(x, y) {
     const { run, player } = this;
     const radius = INK.radius * run.build.stats.inkRadius;
-    this.fx.spawn('ink', x, y, { sheet: 'boom', scale: radius > 50 ? 1.5 : 1 });
+    this.fx.spawn('ink', x, y, { sheet: 'boom', scale: radius > 70 ? 1.5 : 1 });
     this.renderer.shake(4, 0.3);
     this.audio.sfx('boom');
     for (const enemy of this.enemies) {
       const d = Math.hypot(enemy.x - x, enemy.y - y);
-      if (d < radius + enemy.radius) enemy.hurt(INK.damage, ((enemy.x - x) / (d || 1)) * 200, ((enemy.y - y) / (d || 1)) * 200);
+      if (d < radius + enemy.radius) enemy.hurt(INK.damage, ((enemy.x - x) / (d || 1)) * 300, ((enemy.y - y) / (d || 1)) * 300);
     }
     if (Math.hypot(player.x - x, player.y - y) < radius * 0.8) player.hurt(2);
     for (const shot of this.shots.list) if (!shot.friendly && Math.hypot(shot.x - x, shot.y - y) < radius) this.shots.kill(shot);
@@ -324,12 +329,84 @@ export class World {
   }
 
   /** A marked spot where something lands after `delay` seconds. */
-  addZone({ x, y, r, delay, damage = 1, onLand = null }) {
+  addZone({ x, y, r, delay, damage = 1, onLand = null, small = false, fx = null }) {
     const sprite = this.stage.sprite('fx', 'telegraph');
     sprite.layer = LAYER.decal;
     sprite.x = x;
     sprite.y = y;
-    this.zones.push({ sprite, x, y, r, t: delay, damage, onLand });
+    if (small) sprite.scale = 0.6;
+    this.zones.push({ sprite, x, y, r, t: delay, damage, onLand, fx });
+  }
+
+  /** A sticky puddle that slows the player while he stands in it. */
+  addSlime(x, y) {
+    if (this.slimes.length >= 40) this.slimes.shift().sprite.remove();
+    const sprite = this.stage.sprite('fx2', 'slime');
+    sprite.layer = LAYER.decal;
+    sprite.x = x;
+    sprite.y = y;
+    this.slimes.push({ sprite, x, y, life: 5 });
+  }
+
+  inSlime(x, y) {
+    return this.slimes.some((slime) => Math.abs(slime.x - x) < 17 && Math.abs(slime.y - y) < 11);
+  }
+
+  /**
+   * A beam from `owner`: a thin sighting line for `warn` seconds, then the beam itself for `fire`
+   * seconds. It stops at walls and blocks. `sweep` turns it (radians per second) while it fires.
+   */
+  addBeam(owner, angle, { warn = 0.7, fire = 0.4, sweep = 0 } = {}) {
+    this.beams.push({ owner, angle, warn, fire, sweep, t: 0, sprites: [] });
+  }
+
+  /** Something thrown in an arc: it flies over blocks and lands on a marked spot after `time` seconds. */
+  addLob({ x, y, tx, ty, time, kind, r, onLand }) {
+    const sprite = this.stage.sprite('shots', kind);
+    sprite.layer = LAYER.fx;
+    this.lobs.push({ sprite, x, y, tx, ty, t: 0, time });
+    this.addZone({ x: tx, y: ty, r, delay: time, damage: 1, onLand });
+  }
+
+  updateBeams(dt) {
+    const SEG = 48;
+    const { player } = this;
+    for (let i = this.beams.length - 1; i >= 0; i--) {
+      const beam = this.beams[i];
+      const { owner } = beam;
+      if (owner.frozen <= 0) beam.t += dt;
+      const firing = beam.t >= beam.warn;
+      if (firing && owner.frozen <= 0) beam.angle += beam.sweep * dt;
+      if (owner.state === 'dead' || beam.t >= beam.warn + beam.fire) {
+        for (const sprite of beam.sprites) sprite.remove();
+        this.beams.splice(i, 1);
+        continue;
+      }
+      const dx = Math.cos(beam.angle);
+      const dy = Math.sin(beam.angle);
+      const ox = owner.x + dx * owner.radius;
+      const oy = owner.y - 4 + dy * owner.radius;
+      let length = 0;
+      while (length < 520 && this.grid.inRoom(ox + dx * length, oy + dy * length) && !this.grid.solidAt(ox + dx * length, oy + dy * length)) length += 6;
+      const count = Math.max(1, Math.round(length / SEG));
+      while (beam.sprites.length < count) {
+        const sprite = this.stage.sprite('fx2', 'aim');
+        sprite.layer = LAYER.fx;
+        beam.sprites.push(sprite);
+      }
+      beam.sprites.forEach((sprite, k) => {
+        sprite.visible = k < count;
+        sprite.play(firing ? 'beam' : 'aim');
+        sprite.x = ox + dx * (k + 0.5) * SEG;
+        sprite.y = oy + dy * (k + 0.5) * SEG;
+        sprite.rot = -beam.angle;
+        sprite.update(dt);
+      });
+      if (!firing || player.dead) continue;
+      // Distance from the player to the beam's centre line.
+      const along = Math.max(0, Math.min(count * SEG, (player.x - ox) * dx + (player.y - oy) * dy));
+      if (Math.hypot(player.x - (ox + dx * along), player.y - (oy + dy * along)) < 6 + player.radius - 3) player.hurt(1);
+    }
   }
 
   /** A mark left behind a shot: crayon burns, ink burns and slows. */
@@ -339,9 +416,9 @@ export class World {
     sprite.layer = LAYER.decal;
     sprite.x = x;
     sprite.y = y;
-    if (ink) sprite.scale = 0.5;
+    if (ink) sprite.scale = 0.6;
     else sprite.speed = 0.5;
-    this.trails.push({ sprite, x, y, ink, r: ink ? 8 : 5, life: ink ? 2.2 : 0.7, max: ink ? 2.2 : 0.7, damage: damage * (ink ? 0.25 : 0.4), tick: 0 });
+    this.trails.push({ sprite, x, y, ink, r: ink ? 14 : 9, life: ink ? 2.2 : 0.7, max: ink ? 2.2 : 0.7, damage: damage * (ink ? 0.25 : 0.4), tick: 0 });
   }
 
   updateHazards(dt) {
@@ -362,7 +439,8 @@ export class World {
       if (zone.t > 0) continue;
       zone.sprite.remove();
       this.zones.splice(i, 1);
-      this.fx.spawn('pop_rose', zone.x, zone.y, { scale: 2 });
+      if (zone.fx) this.fx.spawn(zone.fx.anim, zone.x, zone.y - 8, { sheet: zone.fx.sheet, layer: LAYER.ents });
+      else this.fx.spawn('pop_rose', zone.x, zone.y, { scale: 1.5 });
       this.audio.sfx('pop');
       if (Math.hypot(this.player.x - zone.x, this.player.y - zone.y) < zone.r + this.player.radius) this.player.hurt(zone.damage);
       zone.onLand?.();
@@ -386,6 +464,30 @@ export class World {
         this.trails.splice(i, 1);
       }
     }
+    for (let i = this.slimes.length - 1; i >= 0; i--) {
+      const slime = this.slimes[i];
+      slime.life -= dt;
+      slime.sprite.update(dt);
+      slime.sprite.alpha = Math.min(1, slime.life);
+      if (slime.life <= 0) {
+        slime.sprite.remove();
+        this.slimes.splice(i, 1);
+      }
+    }
+    for (let i = this.lobs.length - 1; i >= 0; i--) {
+      const lob = this.lobs[i];
+      lob.t += dt;
+      const k = Math.min(1, lob.t / lob.time);
+      lob.sprite.x = lob.x + (lob.tx - lob.x) * k;
+      lob.sprite.y = lob.y + (lob.ty - lob.y) * k - Math.sin(k * Math.PI) * 56;
+      lob.sprite.scale = 1 + Math.sin(k * Math.PI) * 0.5;
+      lob.sprite.update(dt);
+      if (k >= 1) {
+        lob.sprite.remove();
+        this.lobs.splice(i, 1);
+      }
+    }
+    this.updateBeams(dt);
     const { player, run } = this;
     for (let i = this.wisps.length - 1; i >= 0; i--) {
       const wisp = this.wisps[i];
@@ -394,19 +496,19 @@ export class World {
       const dy = player.y - wisp.y;
       const d = Math.hypot(dx, dy) || 1;
       const pull = Math.min(1, wisp.t * 1.6);
-      wisp.vx += ((dx / d) * 420 * pull - wisp.vx * 3) * dt;
-      wisp.vy += ((dy / d) * 420 * pull - wisp.vy * 3) * dt;
+      wisp.vx += ((dx / d) * 640 * pull - wisp.vx * 3) * dt;
+      wisp.vy += ((dy / d) * 640 * pull - wisp.vy * 3) * dt;
       wisp.x += wisp.vx * dt;
       wisp.y += wisp.vy * dt;
       wisp.sprite.x = wisp.x;
       wisp.sprite.y = wisp.y;
       wisp.sprite.update(dt);
-      if (d < 8 || wisp.t > 4) {
+      if (d < 12 || wisp.t > 4) {
         wisp.sprite.remove();
         this.wisps.splice(i, 1);
         if (run.health.addEssence(run.build.stats.essenceMul) > 0) {
           this.audio.sfx('fill');
-          this.fx.spawn('heal', player.x, player.y - 8);
+          this.fx.spawn('heal', player.x, player.y - 16);
         }
       }
     }

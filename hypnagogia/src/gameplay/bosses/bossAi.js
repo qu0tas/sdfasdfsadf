@@ -17,7 +17,7 @@ function jack(e, dt, w) {
     }
   } else if (e.m.phase === 'hop') {
     if (e.m.t > 0) {
-      e.go(e.m.dx, e.m.dy, e.m.t > 0.12 ? e.def.speed * 2.6 : 0);
+      e.go(e.m.dx, e.m.dy, e.m.t > 0.12 ? e.speed * 2.6 : 0);
     } else if (e.m.hops > 0) {
       e.m.hops -= 1;
       const { angle } = e.aimAtPlayer();
@@ -39,7 +39,7 @@ function jack(e, dt, w) {
       if (e.m.fire <= 0 && e.m.wave < (hurt(e) > 0.5 ? 5 : 3)) {
         e.m.fire = 0.38;
         e.m.wave += 1;
-        w.shots.ring(e.x, e.y - 12, hurt(e) > 0.5 ? 12 : 9, 78, e.m.wave * 0.33);
+        w.shots.ring(e.x, e.y - 24, hurt(e) > 0.5 ? 11 : 8, 74, e.m.wave * 0.33);
         w.audio.sfx('enemyShot');
       }
     }
@@ -59,7 +59,7 @@ function clump(e, dt, w) {
   if (e.oneShot) return;
   if (e.m.phase === 'roll') {
     const dir = w.grid.steer(e.x, e.y, w.player.x, w.player.y);
-    e.go(dir.x, dir.y, e.def.speed * (1 + hurt(e) * 0.6));
+    e.go(dir.x, dir.y, e.speed * (1 + hurt(e) * 0.6));
     if (e.m.t > 0) return;
     e.m.count = (e.m.count ?? 0) + 1;
     e.m.t = 2.1 - hurt(e) * 0.7;
@@ -71,8 +71,8 @@ function clump(e, dt, w) {
           w.renderer.shake(3, 0.25);
           w.audio.sfx('slam');
           w.fx.spawn('ring', e.x, e.y, { sheet: 'boom' });
-          w.shots.ring(e.x, e.y, 14, 76, Math.random());
-          if (hurt(e) > 0.5) w.shots.ring(e.x, e.y, 14, 52, Math.random());
+          w.shots.ring(e.x, e.y, 12, 74, Math.random());
+          if (hurt(e) > 0.5) w.shots.ring(e.x, e.y, 12, 50, Math.random());
         },
       });
     } else {
@@ -80,11 +80,11 @@ function clump(e, dt, w) {
         release: 2,
         onRelease: () => {
           const { angle } = e.aimAtPlayer();
-          w.shots.fan(e.x, e.y, angle, 5, 0.9, 108, { r: 3.5 });
+          w.shots.fan(e.x, e.y, angle, 5, 0.9, 100, { r: 6 });
           w.audio.sfx('enemyShot');
-          if (minions(w) < 3) {
-            w.spawnEnemy('blob', e.x + Math.cos(angle + 1.6) * 30, e.y + Math.sin(angle + 1.6) * 30, { minion: true });
-            if (hurt(e) > 0.5) w.spawnEnemy('blob', e.x + Math.cos(angle - 1.6) * 30, e.y + Math.sin(angle - 1.6) * 30, { minion: true });
+          if (minions(w) < 4) {
+            w.spawnEnemy('blobling', e.x + Math.cos(angle + 1.6) * 54, e.y + Math.sin(angle + 1.6) * 54, { minion: true });
+            w.spawnEnemy('blobling', e.x + Math.cos(angle - 1.6) * 54, e.y + Math.sin(angle - 1.6) * 54, { minion: true });
           }
         },
       });
@@ -103,7 +103,7 @@ function warden(e, dt, w) {
   switch (e.m.phase) {
     case 'march': {
       const dir = w.grid.steer(e.x, e.y, w.player.x, w.player.y);
-      e.go(dir.x, dir.y, e.def.speed);
+      e.go(dir.x, dir.y, e.speed);
       if (e.m.t <= 0) {
         e.m.charges = rage ? 3 : 2;
         e.m.phase = 'wind';
@@ -126,11 +126,11 @@ function warden(e, dt, w) {
       }
       break;
     case 'charge':
-      e.go(e.m.dx, e.m.dy, 250);
+      e.go(e.m.dx, e.m.dy, 340);
       if (e.m.started && (e.bump.x || e.bump.y || e.m.t <= 0)) {
         w.renderer.shake(3, 0.2);
         w.audio.sfx('slam');
-        w.shots.ring(e.x, e.y, rage ? 12 : 9, 84, Math.random(), { kind: 'cog' });
+        w.shots.ring(e.x, e.y, rage ? 11 : 8, 80, Math.random(), { kind: 'cog' });
         e.stopLoop();
         e.m.charges -= 1;
         if (e.m.charges > 0) {
@@ -154,14 +154,14 @@ function warden(e, dt, w) {
           e.playOnce('attack', {
             release: 2,
             onRelease: () => {
-              w.shots.fan(e.x, e.y - 4, e.aimAtPlayer().angle, rage ? 7 : 5, 1.3, 104, { kind: 'cog' });
+              w.shots.fan(e.x, e.y - 8, e.aimAtPlayer().angle, rage ? 7 : 5, 1.3, 98, { kind: 'cog' });
               w.audio.sfx('enemyShot');
             },
           });
         } else {
           if (rage && minions(w) < 2) {
-            w.spawnEnemy('windup', e.x - 30, e.y + 10, { minion: true });
-            w.spawnEnemy('windup', e.x + 30, e.y + 10, { minion: true });
+            w.spawnEnemy('windup', e.x - 60, e.y + 10, { minion: true });
+            w.spawnEnemy('windup', e.x + 60, e.y + 10, { minion: true });
           }
           // Wound down: a short opening for the player.
           e.m.phase = 'rest';
@@ -206,7 +206,7 @@ function toyheart(e, dt, w) {
     e.playOnce('beat', {
       release: 1,
       onRelease: () => {
-        w.shots.ring(e.x, e.y, h > 0.5 ? 18 : 13, 74, e.m.n % 2 ? 0 : 0.24, { kind: 'stuffing', r: 3.5 });
+        w.shots.ring(e.x, e.y, h > 0.5 ? 15 : 11, 70, e.m.n % 2 ? 0 : 0.28, { kind: 'stuffing', r: 6 });
         w.renderer.shake(1.5, 0.1);
         w.audio.sfx('slam');
       },
@@ -218,11 +218,11 @@ function toyheart(e, dt, w) {
       const count = h > 0.75 ? 9 : h > 0.4 ? 7 : 5;
       w.audio.sfx('telegraph');
       for (let i = 0; i < count; i++) {
-        const x = i === 0 ? w.player.x : ROOM_X + 20 + Math.random() * (ROOM_W - 40);
-        const y = i === 0 ? w.player.y : ROOM_Y + 20 + Math.random() * (ROOM_H - 40);
+        const x = i === 0 ? w.player.x : ROOM_X + 24 + Math.random() * (ROOM_W - 48);
+        const y = i === 0 ? w.player.y : ROOM_Y + 24 + Math.random() * (ROOM_H - 48);
         w.addZone({
-          x, y, r: 13, delay: 0.9 + i * 0.1, damage: 2,
-          onLand: () => w.shots.ring(x, y, 4, 80, Math.PI / 4, { kind: 'cog' }),
+          x, y, r: 18, delay: 0.9 + i * 0.1, damage: 2,
+          onLand: () => w.shots.ring(x, y, 4, 76, Math.PI / 4, { kind: 'cog' }),
         });
       }
     }
@@ -243,10 +243,10 @@ function toyheart(e, dt, w) {
     if (e.sprite.done) e.vuln = 1.6;
     e.m.fire -= dt;
     if (e.m.fire <= 0) {
-      e.m.fire = 0.13;
+      e.m.fire = 0.16;
       e.m.spin += 0.3;
       const arms = h > 0.5 ? 3 : 2;
-      for (let i = 0; i < arms; i++) w.shots.fireHostile(e.x, e.y, e.m.spin + (i / arms) * Math.PI * 2, 82, { kind: 'stitch' });
+      for (let i = 0; i < arms; i++) w.shots.fireHostile(e.x, e.y, e.m.spin + (i / arms) * Math.PI * 2, 76, { kind: 'stitch' });
     }
     if (e.m.t <= 0) {
       e.vuln = 1;
@@ -258,7 +258,7 @@ function toyheart(e, dt, w) {
     if (minions(w) < 3) {
       const types = ['balloon', 'windup', 'spider'];
       for (const side of [-1, 1]) {
-        w.spawnEnemy(types[Math.floor(Math.random() * types.length)], ROOM_CX + side * 120, ROOM_CY + (Math.random() - 0.5) * 80, { minion: true });
+        w.spawnEnemy(types[Math.floor(Math.random() * types.length)], ROOM_CX + side * 150, ROOM_CY + (Math.random() - 0.5) * 120, { minion: true });
       }
     }
     e.m.phase = 'idle';

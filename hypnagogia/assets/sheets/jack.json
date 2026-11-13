@@ -2,6 +2,7 @@
   "name": "jack",
   "cellW": 48,
   "cellH": 48,
+  "scale": 2,
   "width": 384,
   "height": 240,
   "anims": {

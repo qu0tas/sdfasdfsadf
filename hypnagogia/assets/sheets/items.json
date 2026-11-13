@@ -2,6 +2,7 @@
   "name": "items",
   "cellW": 16,
   "cellH": 16,
+  "scale": 2,
   "width": 16,
   "height": 448,
   "anims": {

@@ -1,9 +1,10 @@
 {
   "name": "zero",
-  "cellW": 24,
-  "cellH": 24,
-  "width": 216,
-  "height": 216,
+  "cellW": 48,
+  "cellH": 48,
+  "scale": 1,
+  "width": 432,
+  "height": 432,
   "anims": {
     "idle": {
       "row": 0,

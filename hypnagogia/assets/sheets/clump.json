@@ -2,6 +2,7 @@
   "name": "clump",
   "cellW": 64,
   "cellH": 64,
+  "scale": 2,
   "width": 576,
   "height": 384,
   "anims": {

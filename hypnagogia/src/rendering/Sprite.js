@@ -141,7 +141,7 @@ export class Sprite {
     const sort = Math.max(0, Math.min(1, (this.y + this.sortBias) / VIEW_H));
     mesh.position.set(Math.round(this.x + this.ox), -Math.round(this.y + this.oy), this.layer * 10 + sort * 9);
     mesh.rotation.z = this.rot;
-    mesh.scale.set(meta.cellW * this.scale, meta.cellH * this.scale, 1);
+    mesh.scale.set(meta.cellW * meta.scale * this.scale, meta.cellH * meta.scale * this.scale, 1);
   }
 
   /** Hides the sprite and returns it to the pool for reuse. */

@@ -31,7 +31,7 @@ export class Props {
       // Flat things lie on the floor; standing things are sorted with the characters.
       const flat = data.kind === 'drawing' || data.kind === 'clock' || data.kind === 'memory_door';
       sprite.layer = flat ? LAYER.decal : LAYER.ents;
-      sprite.sortBias = 8;
+      sprite.sortBias = 16;
       if (data.kind === 'memory_door' && world.room.puzzle?.solved) sprite.still('memory_open', 99);
       this.list.push({ data, sprite });
     }
@@ -57,7 +57,7 @@ export class Props {
     run.dust -= WELL_COST;
     prop.data.used += 1;
     world.audio.sfx('buy');
-    world.fx.spawn('sparkle', prop.data.x, prop.data.y - 6);
+    world.fx.spawn('sparkle', prop.data.x, prop.data.y - 12);
     const luck = run.build.stats.luck;
     const total = WELL.reduce((sum, [kind, weight]) => sum + (kind ? weight * (1 + luck * 0.15) : weight), 0);
     let roll = Math.random() * total;
@@ -71,10 +71,10 @@ export class Props {
     }
     if (result === 'item') {
       const item = run.pickItem('treasure');
-      if (item) world.loot.spawnPedestal(item, prop.data.x, prop.data.y + 44);
+      if (item) world.loot.spawnPedestal(item, prop.data.x - 70, prop.data.y + 30);
       else result = 'dust_big';
     }
-    if (result && result !== 'item') world.loot.drop(result, prop.data.x, prop.data.y + 22);
+    if (result && result !== 'item') world.loot.drop(result, prop.data.x, prop.data.y + 44);
     world.hud.toast(result ? 'Колодец что-то вернул.' : 'Пыль ушла на дно. Тихо.');
     world.saveRun();
   }
@@ -89,9 +89,9 @@ export class Props {
     health.glassFilled += 1;
     prop.data.used = 1;
     world.audio.sfx('glass');
-    world.fx.spawn('shatter', world.player.x, world.player.y - 4);
+    world.fx.spawn('shatter', world.player.x, world.player.y - 8);
     const item = run.pickItem('treasure');
-    if (item) world.loot.spawnPedestal(item, prop.data.x, Math.min(prop.data.y + 46, ROOM_CY + 70));
+    if (item) world.loot.spawnPedestal(item, prop.data.x - 70, ROOM_CY + 30);
     world.hud.toast('Отражение взяло сердце и оставило стекло.');
     world.saveRun();
   }
@@ -103,7 +103,7 @@ export class Props {
       prop.sprite.update(dt);
       const { data } = prop;
       if (player.dead || world.locked) continue;
-      const near = Math.hypot(player.x - data.x, player.y - (data.y + 8)) < 30;
+      const near = Math.hypot(player.x - data.x, player.y - (data.y + 14)) < 48;
       if (!near) continue;
       if (data.kind === 'well') {
         if (data.used >= WELL_USES) {

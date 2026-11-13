@@ -30,7 +30,7 @@ export const ITEMS = [
   {
     id: 'old_sneakers', name: 'Старые кеды', desc: 'Быстрее шаг, чаще рывок.',
     kind: 'passive', rarity: 'common', tags: [], pools: ['treasure', 'shop'],
-    mods: [{ stat: 'speed', op: 'add', value: 14 }, { stat: 'dashCd', op: 'mul', value: 0.75 }],
+    mods: [{ stat: 'speed', op: 'add', value: 20 }, { stat: 'dashCd', op: 'mul', value: 0.75 }],
   },
   {
     id: 'lullaby', name: 'Колыбельная', desc: 'Выстрелы летят дальше и быстрее.',

@@ -11,9 +11,9 @@ const TRAIL_PRIORITY = { crayon: 1, ink: 2 };
 const LIMITS = {
   damage: [0.5, 40],
   fireDelay: [0.09, 2],
-  shotSpeed: [60, 420],
-  range: [60, 600],
-  speed: [50, 170],
+  shotSpeed: [80, 480],
+  range: [70, 520],
+  speed: [70, 220],
   shots: [1, 7],
   spread: [0, 30],
   dashCd: [0.3, 2],

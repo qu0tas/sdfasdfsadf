@@ -88,7 +88,7 @@ test('rooms populate and roll encounters without errors', () => {
       const floor = generateFloor(seed * 7477, stage, 'restless');
       for (const room of floor.rooms) {
         populateRoom(room, floor, ctx);
-        const foes = rollEncounter(room, floor, { x: 40, y: 144 });
+        const foes = rollEncounter(room, floor, { x: 60, y: 135 });
         if (room.type === 'combat' && room.id !== floor.startId) assert.ok(foes.length > 0, 'a fight needs enemies');
         if (room.type === 'boss') assert.equal(foes[0].type, STAGES[stage].boss);
         if (room.clue) assert.equal(room.decals.length, 2);

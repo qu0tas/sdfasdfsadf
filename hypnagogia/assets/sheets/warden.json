@@ -2,6 +2,7 @@
   "name": "warden",
   "cellW": 48,
   "cellH": 48,
+  "scale": 2,
   "width": 480,
   "height": 336,
   "anims": {

@@ -215,6 +215,7 @@ export class Menus {
         const row = el('div', kills ? 'row' : 'row unknown');
         const text = el('div');
         text.append(el('b', null, kills ? def.name : '???'), el('span', null, kills ? def.note : 'Ещё не встречено.'));
+        if (kills) text.append(el('span', 'attack', def.attack));
         row.append(icon(def.sheet, 'idle'), text, el('i', 'count', kills ? `×${kills}` : ''));
         list.append(row);
       }

@@ -35,10 +35,10 @@ export class Loot {
   addPickup(data, pop = false) {
     const sprite = this.world.stage.sprite('pickups', data.kind);
     sprite.layer = LAYER.ents;
-    sprite.sortBias = -4;
+    sprite.sortBias = -8;
     // A fresh drop hops out a little before it settles.
     const angle = Math.random() * Math.PI * 2;
-    this.pickups.push({ data, sprite, vx: pop ? Math.cos(angle) * 50 : 0, vy: pop ? Math.sin(angle) * 50 : 0, wait: pop ? 0.35 : 0 });
+    this.pickups.push({ data, sprite, vx: pop ? Math.cos(angle) * 80 : 0, vy: pop ? Math.sin(angle) * 80 : 0, wait: pop ? 0.35 : 0 });
   }
 
   /** Drops a new pickup into the room. */
@@ -66,7 +66,7 @@ export class Loot {
     entry.icon = this.world.stage.sprite('items', entry.data.item);
     entry.icon.layer = LAYER.ents;
     entry.icon.x = entry.data.x;
-    entry.icon.sortBias = 6;
+    entry.icon.sortBias = 12;
   }
 
   spawnPedestal(item, x, y, extra = {}) {
@@ -79,8 +79,8 @@ export class Loot {
 
   refreshLabels() {
     const labels = [];
-    for (const p of this.pickups) if (p.data.price) labels.push({ x: p.data.x, y: p.data.y + 11, text: String(p.data.price) });
-    for (const p of this.pedestals) if (p.data.price && !p.data.taken) labels.push({ x: p.data.x, y: p.data.y + 13, text: String(p.data.price) });
+    for (const p of this.pickups) if (p.data.price) labels.push({ x: p.data.x, y: p.data.y + 20, text: String(p.data.price) });
+    for (const p of this.pedestals) if (p.data.price && !p.data.taken) labels.push({ x: p.data.x, y: p.data.y + 24, text: String(p.data.price) });
     this.world.hud.labels(labels);
   }
 
@@ -107,7 +107,7 @@ export class Loot {
         if (!health.canHealRed()) return false;
         health.healRed(kind === 'heart_red' ? 2 : 1);
         audio.sfx('heart');
-        fx.spawn('heal', player.x, player.y - 8);
+        fx.spawn('heal', player.x, player.y - 16);
         return true;
       case 'heart_blue':
         if (!health.canAddBlue()) return false;
@@ -145,7 +145,7 @@ export class Loot {
     const def = ITEM_BY_ID[data.item];
     const result = run.addItem(data.item);
     audio.sfx('item');
-    fx.spawn('sparkle', data.x, data.y - 10);
+    fx.spawn('sparkle', data.x, data.y - 20);
     player.playOnce('use');
     hud.item(def.name, def.desc);
     for (const id of result.synergies) {
@@ -176,7 +176,7 @@ export class Loot {
       const { data, sprite } = p;
       p.wait = Math.max(0, p.wait - dt);
       if (p.vx || p.vy) {
-        world.grid.move(data, p.vx * dt, p.vy * dt, 4);
+        world.grid.move(data, p.vx * dt, p.vy * dt, 7);
         p.vx *= Math.max(0, 1 - 6 * dt);
         p.vy *= Math.max(0, 1 - 6 * dt);
         if (Math.hypot(p.vx, p.vy) < 4) p.vx = p.vy = 0;
@@ -185,14 +185,14 @@ export class Loot {
       const dy = player.y - data.y;
       const d = Math.hypot(dx, dy) || 1;
       // Dust is drawn to the guardian.
-      if (!data.price && DUST_VALUE[data.kind] && d < 42 && p.wait <= 0 && !player.dead) {
-        world.grid.move(data, (dx / d) * 150 * dt, (dy / d) * 150 * dt, 3, true);
+      if (!data.price && DUST_VALUE[data.kind] && d < 70 && p.wait <= 0 && !player.dead) {
+        world.grid.move(data, (dx / d) * 230 * dt, (dy / d) * 230 * dt, 5, true);
       }
       sprite.x = data.x;
       sprite.y = data.y;
       sprite.update(dt);
 
-      if (player.dead || p.wait > 0 || d > player.radius + 7) {
+      if (player.dead || p.wait > 0 || d > player.radius + 11) {
         p.blocked = false;
         continue;
       }
@@ -219,15 +219,15 @@ export class Loot {
     for (const entry of this.pedestals) {
       const { data } = entry;
       entry.base.update(dt);
-      if (entry.icon) entry.icon.y = data.y - 11 + Math.sin(world.time * 2.5 + data.x) * 1.5;
+      if (entry.icon) entry.icon.y = data.y - 22 + Math.sin(world.time * 2.5 + data.x) * 2;
       if (data.taken || player.dead) continue;
       const d = Math.hypot(player.x - data.x, player.y - data.y);
-      if (d < 30) {
+      if (d < 46) {
         const def = ITEM_BY_ID[data.item];
         world.prompt(`${def.name} — ${def.desc}`);
       }
-      if (d > 18) entry.armed = true;
-      if (d < 11 && entry.armed) {
+      if (d > 30) entry.armed = true;
+      if (d < 18 && entry.armed) {
         entry.armed = false;
         if (this.pay(data.price)) this.takeItem(entry);
       }

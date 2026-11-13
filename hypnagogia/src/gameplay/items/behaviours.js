@@ -23,14 +23,14 @@ export const PASSIVE = {
     },
     update(w, dt, state) {
       state.angle += dt * 3.4;
-      const x = w.player.x + Math.cos(state.angle) * 22;
-      const y = w.player.y + Math.sin(state.angle) * 16;
+      const x = w.player.x + Math.cos(state.angle) * 38;
+      const y = w.player.y + Math.sin(state.angle) * 28;
       state.sprite.x = x;
       state.sprite.y = y;
       state.sprite.visible = !w.player.dead;
       state.sprite.update(dt);
       for (const enemy of w.enemies) {
-        if (!enemy.targetable || Math.hypot(enemy.x - x, enemy.y - y) > enemy.radius + 5) continue;
+        if (!enemy.targetable || Math.hypot(enemy.x - x, enemy.y - y) > enemy.radius + 9) continue;
         if ((state.cool.get(enemy) ?? 0) > w.time) continue;
         state.cool.set(enemy, w.time + 0.35);
         enemy.hurt(w.run.build.stats.damage * 0.8, 0, 0);
@@ -47,13 +47,13 @@ export const PASSIVE = {
         const dx = enemy.x - player.x;
         const dy = enemy.y - player.y;
         const d = Math.hypot(dx, dy) || 1;
-        if (d < 80 && enemy.targetable) {
-          enemy.kx += (dx / d) * 260;
-          enemy.ky += (dy / d) * 260;
+        if (d < 120 && enemy.targetable) {
+          enemy.kx += (dx / d) * 380;
+          enemy.ky += (dy / d) * 380;
         }
       }
       for (const shot of w.shots.list) {
-        if (!shot.friendly && Math.hypot(shot.x - player.x, shot.y - player.y) < 70) w.shots.kill(shot);
+        if (!shot.friendly && Math.hypot(shot.x - player.x, shot.y - player.y) < 105) w.shots.kill(shot);
       }
     },
   },

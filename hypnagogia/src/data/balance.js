@@ -4,9 +4,9 @@
 export const BASE_STATS = {
   damage: 3, // damage of one shot
   fireDelay: 0.36, // seconds between shots
-  shotSpeed: 200, // pixels per second
-  range: 210, // pixels a shot travels
-  speed: 96, // movement, pixels per second
+  shotSpeed: 250, // pixels per second
+  range: 200, // pixels a shot travels
+  speed: 135, // movement, pixels per second
   shots: 1, // projectiles per volley
   spread: 0, // extra degrees between projectiles of one volley
   luck: 0, // improves drops and rare items
@@ -35,14 +35,14 @@ export const BASE_SHOT = {
 };
 
 export const PLAYER = {
-  radius: 5,
+  radius: 8,
   startRed: 6, // in half hearts
   startGlass: 1,
   startShards: 1,
   startInk: 1,
   hitInvuln: 1.0,
-  dashTime: 0.16,
-  dashSpeed: 330,
+  dashTime: 0.17,
+  dashSpeed: 430,
   maxHearts: 12, // red containers + glass hearts
   maxBlue: 12, // half hearts
 };
@@ -50,7 +50,7 @@ export const PLAYER = {
 /** Proposal (open design question): essence needed to fill one Glass Heart. */
 export const ESSENCE_PER_GLASS = 12;
 
-export const INK = { fuse: 1.5, radius: 44, damage: 40 };
+export const INK = { fuse: 1.5, radius: 62, damage: 40 };
 
 export const PRICES = { item: 15, heart_red: 4, heart_blue: 6, shard: 5, ink: 5, heart_glass: 9 };
 

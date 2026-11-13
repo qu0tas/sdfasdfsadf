@@ -4,13 +4,16 @@
 export const VIEW_W = 480;
 export const VIEW_H = 270;
 
-export const TILE = 16;
-/** Room interior, in tiles. Both are odd so every wall has a centre tile for its rift. */
-export const COLS = 27;
-export const ROWS = 13;
+export const TILE = 32;
+/**
+ * Room interior, in tiles: 13 x 7, the proportions of The Binding of Isaac. Both are odd so every
+ * wall has a centre tile for its rift. The top and bottom walls are partly cut off by the screen.
+ */
+export const COLS = 13;
+export const ROWS = 7;
 /** Top-left corner of the room interior, in view pixels. */
-export const ROOM_X = 24;
-export const ROOM_Y = 40;
+export const ROOM_X = 32;
+export const ROOM_Y = 23;
 export const ROOM_W = COLS * TILE;
 export const ROOM_H = ROWS * TILE;
 export const ROOM_CX = ROOM_X + ROOM_W / 2;
@@ -41,7 +44,7 @@ export function doorPos(dir) {
 export function entryPos(dir) {
   const p = doorPos(dir);
   const d = DIRS[dir];
-  return { x: p.x - d.dx * 26, y: p.y - d.dy * 26 };
+  return { x: p.x - d.dx * 36, y: p.y - d.dy * 36 };
 }
 
 export const tileCenter = (c, r) => ({ x: ROOM_X + c * TILE + TILE / 2, y: ROOM_Y + r * TILE + TILE / 2 });
